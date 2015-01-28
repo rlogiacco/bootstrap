@@ -260,7 +260,16 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
              * Observe the relevant attributes.
              */
             attrs.$observe( type, function ( val ) {
-              ttScope.content = val;
+              if (val.charAt(0) == '@') {
+              	var tag = element.find(val.substring(1));
+              	if (tag) {
+              	  ttScope.content = tag.html();
+              	  tag.remove();
+              	}
+              }
+              if (!ttScope.content) {
+                ttScope.content = val;
+              }
 
               if (!val && ttScope.isOpen ) {
                 hide();
