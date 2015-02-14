@@ -262,7 +262,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             attrs.$observe( type, function ( val ) {
               if (val && val.length >= 1 && val.charAt(0) == '@') {
                 var tag = element.find(val.length > 1 ? val.substring(1) : 'tooltip');
-                if (tag) {
+                if (tag.length == 1) {
                   ttScope.content = tag.html();
                   tag.remove();
                   return;

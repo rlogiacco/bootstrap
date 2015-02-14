@@ -155,4 +155,48 @@ describe('tooltip directive', function () {
     expect( tooltipScope.content ).toBe( 'Tooltip text' );
   });
 
+  it('should retrieve content from default interpolated inner tag', function () {
+    var fragment = compileTooltip('<span tooltip="@">Trigger here<tooltip>Tooltip text</tooltip>!!!</span>');
+
+    var tt = fragment.find('span');
+    tt.trigger( 'mouseenter' );
+    expect( tt.text() ).toBe( 'Trigger here!!!' );
+
+    var tooltipScope = tt.scope().$$childTail;
+    expect( tooltipScope.content ).toBe( 'Tooltip text' );
+  });
+
+  it('should retrieve content from attribute if non matching inner tag', function () {
+    var fragment = compileTooltip('<span tooltip="@">Trigger here <b>Tooltip text</b></span>');
+
+    var tt = fragment.find('span');
+    tt.trigger( 'mouseenter' );
+    expect( tt.text() ).toBe( 'Trigger here Tooltip text' );
+
+    var tooltipScope = tt.scope().$$childTail;
+    expect( tooltipScope.content ).toBe( '@' );
+  });
+
+  it('should retrieve content from attribute if non matching inner tag', function () {
+    var fragment = compileTooltip('<span tooltip="@myTag">Trigger here <b>Tooltip text</b></span>');
+
+    var tt = fragment.find('span');
+    tt.trigger( 'mouseenter' );
+    expect( tt.text() ).toBe( 'Trigger here Tooltip text' );
+
+    var tooltipScope = tt.scope().$$childTail;
+    expect( tooltipScope.content ).toBe( '@myTag' );
+  });
+
+  it('should retrieve content from attribute if no inner tag', function () {
+    var fragment = compileTooltip('<span tooltip="@tooltip">Trigger here</span>');
+
+    var tt = fragment.find('span');
+    tt.trigger( 'mouseenter' );
+    expect( tt.text() ).toBe( 'Trigger here' );
+
+    var tooltipScope = tt.scope().$$childTail;
+    expect( tooltipScope.content ).toBe( '@tooltip' );
+  });
+
 });
