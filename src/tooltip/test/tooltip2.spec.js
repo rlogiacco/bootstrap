@@ -133,4 +133,26 @@ describe('tooltip directive', function () {
     expect(fragment).not.toHaveOpenTooltips();
   });
 
+  it('should retrieve content from default inner tag', function () {
+    var fragment = compileTooltip('<span tooltip="@">Trigger here<tooltip>Tooltip text</tooltip></span>');
+
+    var tt = fragment.find('span');
+    tt.trigger( 'mouseenter' );
+    expect( tt.text() ).toBe( 'Trigger here' );
+
+    var tooltipScope = tt.scope().$$childTail;
+    expect( tooltipScope.content ).toBe( 'Tooltip text' );
+  });
+
+  it('should retrieve content from named inner tag', function () {
+    var fragment = compileTooltip('<span tooltip="@myTag">Trigger here<myTag>Tooltip text</myTag></span>');
+
+    var tt = fragment.find('span');
+    tt.trigger( 'mouseenter' );
+    expect( tt.text() ).toBe( 'Trigger here' );
+
+    var tooltipScope = tt.scope().$$childTail;
+    expect( tooltipScope.content ).toBe( 'Tooltip text' );
+  });
+
 });
