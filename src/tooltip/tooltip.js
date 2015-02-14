@@ -265,11 +265,10 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
                 if (tag) {
                   ttScope.content = tag.html();
                   tag.remove();
+                  return;
                 }
               }
-              if (!ttScope.content) {
-                ttScope.content = val;
-              }
+              ttScope.content = val;
 
               if (!val && ttScope.isOpen ) {
                 hide();
